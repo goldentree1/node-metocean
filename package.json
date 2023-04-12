@@ -1,6 +1,6 @@
 {
   "name": "@goldentree1/metocean",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Unofficial JS/TS wrapper for MetOcean Solutions' API, featuring type-safety and error-handling.",
   "author": "EB",
   "homepage": "https://github.com/goldentree101/node-metocean",
