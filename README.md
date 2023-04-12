@@ -1,5 +1,4 @@
 # MetOcean API
-<!-- [![npm version](https://badge.fury.io/js/%40goldentree1%2Fmetocean.svg)](https://www.npmjs.com/package/metocean) -->
 
 A wrapper for [MetOcean Solutions'](https://forecast-docs.metoceanapi.com/docs/#/getting-started) weather and marine APIs, featuring type-safety, error-handling and native JS Dates. Get an API key [here](https://console.metoceanapi.com/).
 
