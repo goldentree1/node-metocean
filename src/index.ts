@@ -289,7 +289,7 @@ export class MetOcean {
         });
 
         /** @todo make this not any? */
-        const data = await res.json() as any;
+        const data = JSON.parse(resText) as any;
         /**@todo check this first? */
         data.dimensions.time.data = data.dimensions.time.data.map((dateString: string) => new Date(dateString));
         return data as MetOceanPointTimeSeriesResponse<T>;
