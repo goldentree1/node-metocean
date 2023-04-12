@@ -28,7 +28,7 @@ const m = new MetOcean({ apiKey: 'your-api-key' });
 ```
 Call a method on the instance to retrieve data from the API, with the added bonus of autocomplete in modern IDEs!
 
-![](https://github.com/goldentree101/node-metocean/blob/main/showcase.gif)
+![](https://github.com/goldentree1/node-metocean/blob/main/showcase.gif)
 
 ## Handling Errors
 See [our full example with error-handling](#full-example-with-error-handling).
