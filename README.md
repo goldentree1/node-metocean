@@ -5,7 +5,7 @@ A wrapper for [MetOcean Solutions'](https://forecast-docs.metoceanapi.com/docs/#
 <b>Warning: this package is still in development and there may be bugs or breaking changes before we reach v1.0.0. Currently only supports the Point Forecast Time-Series API.</b>
 
 <b>Disclaimer: this package is unofficial and its creator is not affiliated with
-[MetOcean Solutions'](https://www.metocean.co.nz/) in any way. </b>
+[MetOcean Solutions'](https://www.metocean.co.nz/) in any way. </b>  
 
 ## Requirements
 - Node.js v18 or higher (or use a fetch polyfill)
