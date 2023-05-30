@@ -1,5 +1,8 @@
 # MetOcean API
 
+METOCEAN ROUTE time-series doesnt work...
+but i cant even get it working WHATSOEVER - even with their examples. TODO: take routes out for now... add 'point', and see if 'route speed' works...
+
 A wrapper for [MetOcean Solutions'](https://forecast-docs.metoceanapi.com/docs/#/getting-started) weather and marine APIs, featuring type-safety, error-handling and native JS Dates. Get an API key [here](https://console.metoceanapi.com/).
 
 <b>Warning: currently experimental.Currently only supports the Point Forecast Time-Series API.</b>
