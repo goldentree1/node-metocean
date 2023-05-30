@@ -284,6 +284,7 @@ export class MetOcean {
 
     /**
      * Retrieves time-series data from MetOcean Solutions' Point Forecast API.
+     * @see https://forecast-docs.metoceanapi.com/docs/#/endpoint-point-time
      * @param args forecast properties
      * @param fetchOptions additional options for the fetch request
      * @returns MetOcean point time-series data.
@@ -341,50 +342,52 @@ export class MetOcean {
         const data = JSON.parse(resText) as any;
         //Map strings to date array
         data.dimensions.time.data = data.dimensions.time.data.map((dateString: string) => new Date(dateString));
-        return data;
+        return data as MetOceanPointTimeSeriesResponse<T>;
     }
 
     /**
+     * CURRENTLY THIS DOES NOT WORK. I believe it is due to MetOcean (receive 400 response even with their examples).
+     * All the types are in place however.
      * Retrieves time-series data from MetOcean Solutions' Route Time-Series Forecast API.
      * @param param0 
      * @param fetchOptions 
      * @todo test that this works (w/ types too)
      */
-    async getRouteTimeSeries<T extends MetOceanTimeSeriesVariable[]>(
-        { route, variables }: MetOceanRouteTimeSeriesArgs<T>,
-        fetchOptions?: MetOceanFetchOptions
-    ): Promise<MetOceanRouteTimeSeriesResponse<T>> {
+    // async getRouteTimeSeries<T extends MetOceanTimeSeriesVariable[]>(
+    //     { route, variables }: MetOceanRouteTimeSeriesArgs<T>,
+    //     fetchOptions?: MetOceanFetchOptions
+    // ): Promise<MetOceanRouteTimeSeriesResponse<T>> {
 
-        if (this._options.validateArgs) {
-            MetOcean._THROW_IF_ROUTE_BAD({ route });
-            MetOcean._THROW_IF_VARIABLES_BAD({ variables });
-        }
+    //     if (this._options.validateArgs) {
+    //         MetOcean._THROW_IF_ROUTE_BAD({ route });
+    //         MetOcean._THROW_IF_VARIABLES_BAD({ variables });
+    //     }
 
-        //build request
-        const url = MetOcean._POINT_TIME_SERIES_BASE_URL;
-        const reqOptions: RequestInit = {
-            ...fetchOptions,
-            method: 'post',
-            headers: this._requestHeaders,
-            body: JSON.stringify({
-                route, variables
-            }),
-        };
+    //     //build request
+    //     const url = MetOcean._POINT_TIME_SERIES_BASE_URL;
+    //     const reqOptions: RequestInit = {
+    //         ...fetchOptions,
+    //         method: 'post',
+    //         headers: this._requestHeaders,
+    //         body: JSON.stringify({
+    //             route, variables
+    //         }),
+    //     };
 
 
-        //fetch
-        const res = await fetch(url, reqOptions);
-        const resText = await res.text();
+    //     //fetch
+    //     const res = await fetch(url, reqOptions);
+    //     const resText = await res.text();
 
-        //Throw request error on bad status code
-        if (res.status !== 200) throw new MetOceanRequestError({
-            httpStatusCode: res.status,
-            message: resText
-        });
+    //     //Throw request error on bad status code
+    //     if (res.status !== 200) throw new MetOceanRequestError({
+    //         httpStatusCode: res.status,
+    //         message: resText
+    //     });
 
-        /** @todo improve types */
-        const data = JSON.parse(resText) as any;
-        data.dimensions.timepoint.data = data.dimensions.timepoint.data.map((timepoint: { time: string; }) => ({ ...timepoint, time: new Date(timepoint.time) }))
-        return data;
-    }
+    //     /** @todo improve types */
+    //     const data = JSON.parse(resText) as any;
+    //     data.dimensions.timepoint.data = data.dimensions.timepoint.data.map((timepoint: any) => ({ ...timepoint, time: new Date(timepoint.time) }))
+    //     return data as Promise<MetOceanRouteTimeSeriesResponse<T>>;
+    // }
 }
