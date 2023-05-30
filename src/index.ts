@@ -14,9 +14,9 @@ export type OneOrMoreOf<T, Keys extends keyof T = keyof T> =
         Required<Pick<T, K>>
         & Partial<Pick<T, Exclude<Keys, K>>>
     }[Keys]
-    
+
 /** Contains only properties of T listed in Keys*/
-export type SelectedVariables<T, Keys extends MetOceanPointTimeSeriesVariable[]> = {
+export type SelectedVariables<T, Keys extends MetOceanTimeSeriesVariable[]> = {
     [K in Keys[number]]?: T;
 };
 
@@ -26,12 +26,6 @@ export type MetOceanConstructor = {
     options?: {
         validateArgs?: boolean;
     }
-}
-
-/** MetOcean Point Forecast API time-series coordinate point */
-export type MetOceanPointTimeSeriesPoint = {
-    lat: number;
-    lon: number;
 }
 
 /** Object that specifies the dates that forecast data is retrieved for.
@@ -61,28 +55,14 @@ export type MetOceanPointTimeSeriesTime = OneOrMoreOf<{
     to?: Date;
 }, 'to' | 'from'> & ({ repeat?: never; } | { to?: never; })
 
-/**
- * Arguments for the Point Forecast API time-series data.
- */
-export type MetOceanPointTimeSeriesArgs<T extends MetOceanPointTimeSeriesVariable[]> = OneOf<{
-    /** Array of coordinates to get data for.*/
-    points: MetOceanPointTimeSeriesPoint[];
-    /** Array of forecast variables to retrieve.*/
-    variables: T;
-    /** Object to specify times to retrieve data for. Only specify one of `time` and `times`*/
-    time: MetOceanPointTimeSeriesTime;
-    /** Array of Dates to retrieve data for. Only specify one of `time` and `times`.*/
-    times: Date[];
-}, 'time' | 'times'>
-
 /** Time-series atmospheric variables */
-export type MetOceanPointTimeSeriesAtmosphericVariable = 'air.humidity.at-2m' | 'air.pressure.at-sea-level' | 'air.temperature.at-2m' | 'air.visibility' | 'atmosphere.convective.potential.energy' | 'cloud.base.height' | 'cloud.cover' | 'precipitation.rate' | 'radiation.flux.downward.longwave' | 'radiation.flux.downward.shortwave' | 'wind.direction.at-10m' | 'wind.direction.at-100m' | 'wind.speed.at-10m' | 'wind.speed.at-100m' | 'wind.speed.eastward.at-100m' | 'wind.speed.eastward.at-10m' | 'wind.speed.gust.at-10m' | 'wind.speed.northward.at-100m' | 'wind.speed.northward.at-10m';
+export type MetOceanTimeSeriesAtmosphericVariable = 'air.humidity.at-2m' | 'air.pressure.at-sea-level' | 'air.temperature.at-2m' | 'air.visibility' | 'atmosphere.convective.potential.energy' | 'cloud.base.height' | 'cloud.cover' | 'precipitation.rate' | 'radiation.flux.downward.longwave' | 'radiation.flux.downward.shortwave' | 'wind.direction.at-10m' | 'wind.direction.at-100m' | 'wind.speed.at-10m' | 'wind.speed.at-100m' | 'wind.speed.eastward.at-100m' | 'wind.speed.eastward.at-10m' | 'wind.speed.gust.at-10m' | 'wind.speed.northward.at-100m' | 'wind.speed.northward.at-10m';
 /** Time-series wave variables */
-export type MetOceanPointTimeSeriesWaveVariable = 'wave.height' | 'wave.height.max' | 'wave.direction.peak' | 'wave.period.peak' | 'wave.height.above-8s' | 'wave.height.below-8s' | 'wave.period.above-8s.peak' | 'wave.period.below-8s.peak' | 'wave.direction.above-8s.peak' | 'wave.direction.below-8s.peak' | 'wave.direction.mean' | 'wave.directional-spread' | 'wave.period.tm01.mean' | 'wave.period.tm02.mean';
+export type MetOceanTimeSeriesWaveVariable = 'wave.height' | 'wave.height.max' | 'wave.direction.peak' | 'wave.period.peak' | 'wave.height.above-8s' | 'wave.height.below-8s' | 'wave.period.above-8s.peak' | 'wave.period.below-8s.peak' | 'wave.direction.above-8s.peak' | 'wave.direction.below-8s.peak' | 'wave.direction.mean' | 'wave.directional-spread' | 'wave.period.tm01.mean' | 'wave.period.tm02.mean';
 /** Time-series hydrodynamic variables */
-export type MetOceanPointTimeSeriesHydrodynamicVariable = 'current.speed.eastward.at-sea-surface' | 'current.speed.eastward.at-sea-surface-no-tide' | 'current.speed.eastward.barotropic' | 'current.speed.eastward.barotropic-no-tide' | 'current.speed.northward.at-sea-surface' | 'current.speed.northward.at-sea-surface-no-tide' | 'current.speed.northward.barotropic' | 'current.speed.northward.barotropic-no-tide' | 'sea.temperature.at-surface' | 'sea.temperature.at-surface-anomaly';
+export type MetOceanTimeSeriesHydrodynamicVariable = 'current.speed.eastward.at-sea-surface' | 'current.speed.eastward.at-sea-surface-no-tide' | 'current.speed.eastward.barotropic' | 'current.speed.eastward.barotropic-no-tide' | 'current.speed.northward.at-sea-surface' | 'current.speed.northward.at-sea-surface-no-tide' | 'current.speed.northward.barotropic' | 'current.speed.northward.barotropic-no-tide' | 'sea.temperature.at-surface' | 'sea.temperature.at-surface-anomaly';
 /** Variables for the Point Forecast API time-series  */
-export type MetOceanPointTimeSeriesVariable = `${MetOceanPointTimeSeriesAtmosphericVariable | MetOceanPointTimeSeriesWaveVariable | MetOceanPointTimeSeriesHydrodynamicVariable}`;
+export type MetOceanTimeSeriesVariable = `${MetOceanTimeSeriesAtmosphericVariable | MetOceanTimeSeriesWaveVariable | MetOceanTimeSeriesHydrodynamicVariable}`;
 /**Possible reasons for missing data in the MetOcean Point Forecast API time-series response.*/
 export type MetOceanNoDataReasons = {
     ERROR_INTERNAL: number;
@@ -94,6 +74,37 @@ export type MetOceanNoDataReasons = {
     MASK_ICE: number;
     MASK_LAND: number;
 };
+
+/**
+ * Arguments for the Point Forecast API time-series data.
+ */
+export type MetOceanPointTimeSeriesArgs<T extends MetOceanTimeSeriesVariable[]> = OneOf<{
+    /** Array of coordinates to get data for.*/
+    points: {
+        lat: number;
+        lon: number;
+    }[];
+    /** Array of forecast variables to retrieve.*/
+    variables: T;
+    /** Object to specify times to retrieve data for. Only specify one of `time` and `times`*/
+    time: MetOceanPointTimeSeriesTime;
+    /** Array of Dates to retrieve data for. Only specify one of `time` and `times`.*/
+    times: Date[];
+}, 'time' | 'times'>
+
+/**
+ * Arguments for the Route Forecast API time-series data.
+ */
+export type MetOceanRouteTimeSeriesArgs<T extends MetOceanTimeSeriesVariable[]> = {
+    /** Array of coordinates to get data for at the specified `time`.*/
+    route: {
+        lat: number;
+        lon: number;
+        time: Date;
+    }[];
+    /** Array of forecast variables to retrieve.*/
+    variables: T;
+}
 
 /** Dimensions of the response data returned by the Point Forecast API's time-series endpoint. */
 export type MetOceanPointTimeSeriesResponseDimensions = {
@@ -114,6 +125,20 @@ export type MetOceanPointTimeSeriesResponseDimensions = {
     };
 };
 
+/** Dimensions of the response data returned by the Route Forecast API's time-series endpoint. */
+export type MetOceanRouteTimeSeriesResponseDimensions = {
+    /** The coordinates and times at which the API retrieved data for */
+    timepoint: {
+        type: string;
+        units: string;
+        data: {
+            lat: number;
+            lon: number;
+            time: Date;
+        }[];
+    };
+};
+
 /** A single timepoint of a variable in response data returned by the Point Forecast API's time-series endpoint. */
 export type MetOceanPointTimeSeriesResponseTimepoint = {
     standardName: string;
@@ -123,12 +148,26 @@ export type MetOceanPointTimeSeriesResponseTimepoint = {
     data: (number | null)[];
     noData: number[];
 }
+/** A single timepoint of a variable in response data returned by the Point Forecast API's time-series endpoint. */
+export type MetOceanRouteTimeSeriesResponseTimepoint = {
+    standardName: string;
+    units: string;
+    dimensions: string[];
+    data: (number | null)[];
+    noData: number[];
+}
 
 /** Successful response returned by the Point Forecast API's time-series endpoint. The T parameter is a union type of the variables being queried. */
-export type MetOceanPointTimeSeriesResponse<T extends MetOceanPointTimeSeriesVariable[]> = {
+export type MetOceanPointTimeSeriesResponse<T extends MetOceanTimeSeriesVariable[]> = {
     dimensions: MetOceanPointTimeSeriesResponseDimensions;
     noDataReasons: MetOceanNoDataReasons;
     variables: SelectedVariables<MetOceanPointTimeSeriesResponseTimepoint, T>;
+}
+
+export type MetOceanRouteTimeSeriesResponse<T extends MetOceanTimeSeriesVariable[]> = {
+    dimensions: MetOceanRouteTimeSeriesResponseDimensions;
+    noDataReasons: MetOceanNoDataReasons;
+    variables: SelectedVariables<MetOceanRouteTimeSeriesResponseTimepoint, T>;
 }
 
 /** Options for fetch() */
@@ -142,7 +181,7 @@ export abstract class MetOceanError extends Error {
 /** Error indicating that an illegal argument has been provided. */
 export class MetOceanIllegalArgumentError extends MetOceanError {
     constructor(message: string) {
-        super(`MetOcean Illegal Argument Error:\n${message}`);
+        super(`MetOcean Illegal Argument Error (no API requests were made):\n${message}`);
     }
 }
 
@@ -167,6 +206,7 @@ export class MetOceanRequestError extends MetOceanError {
 export class MetOcean {
 
     private static _POINT_TIME_SERIES_BASE_URL = 'https://forecast-v2.metoceanapi.com/point/time';
+    private static _ROUTE_TIME_SERIES_BASE_URL = 'https://forecast-v2.metoceanapi.com/route';
 
     /**Checks that at least one of `times` and `time` were included, but not both */
     private static _THROW_IF_TIME_AND_TIMES_OR_NEITHER({ time, times }: Pick<MetOceanPointTimeSeriesArgs<any>, 'time' | 'times'>) {
@@ -192,7 +232,7 @@ export class MetOcean {
     }
 
     /**Checks that times is an array of Date objects w/ length > 0 (if it exists) */
-    private static _THROW_IF_TIMES_INVALID({ times }: Pick<Record<keyof MetOceanPointTimeSeriesArgs<any>, unknown>, 'times'>) {
+    private static _THROW_IF_TIMES_INVALID({ times }: { times: unknown }) {
         if (!times) return;
         if (!Array.isArray(times)) throw new MetOceanIllegalArgumentError(`'times' property must be an array or undefined`)
         if (times.length === 0) throw new MetOceanIllegalArgumentError(`'times' property must contain an array of at least one Date(s), or be undefined. It was an empty array.`);
@@ -200,7 +240,7 @@ export class MetOcean {
     }
 
     /** Checks that variables are an array of strings only */
-    private static _THROW_IF_VARIABLES_BAD({ variables }: Pick<Record<keyof MetOceanPointTimeSeriesArgs<any>, unknown>, 'variables'>) {
+    private static _THROW_IF_VARIABLES_BAD({ variables }: { variables: unknown }) {
         //throw if variables dont exist, if not an array, or if array is empty
         if (!variables || !Array.isArray(variables) || variables.length < 1) throw new MetOceanIllegalArgumentError(`'variables' property must contain an array of at least one forecast variable e.g., ["wave.height"]`);
         variables.forEach((v) => {
@@ -209,7 +249,7 @@ export class MetOcean {
     }
 
     /**Checks that points in an array of valid coordinates */
-    private static _THROW_IF_POINTS_BAD({ points }: Pick<Record<keyof MetOceanPointTimeSeriesArgs<any>, unknown>, 'points'>) {
+    private static _THROW_IF_POINTS_BAD({ points }: { points: unknown }) {
         if (!Array.isArray(points)) throw new MetOceanIllegalArgumentError(`'points' property was ${typeof points} instead of an array of points. Try something like 'points: [{lat:-37.82, lon:174.89}]'`)
         if (points.length === 0) throw new MetOceanIllegalArgumentError(`'points' array contained no points. Try something like 'points: [{lat:-37.82, lon:174.89}]'`)
         points.forEach(({ lat, lon }) => {
@@ -220,6 +260,15 @@ export class MetOcean {
                 throw new MetOceanIllegalArgumentError(errorMsg);
             }
         });
+    }
+
+    private static _THROW_IF_ROUTE_BAD({ route }: { route: unknown }) {
+        if (!Array.isArray(route)) {
+            throw new MetOceanIllegalArgumentError(`'route' property was of type ${typeof route} when it should have been an array. Try something like 'route: [{lon: 186.77271306302663, lat: -30.939924331023455, time: '2023-05-30T00:00:00Z'}]' `)
+        }
+        if (route.length === 0) {
+            throw new MetOceanIllegalArgumentError(`'route' array was of length 0.`)
+        }
     }
 
     private _requestHeaders;
@@ -248,7 +297,7 @@ export class MetOcean {
      *   variables:['air.temperature.at-2m', 'cloud.cover']
      * })
      */
-    async getPointTimeSeries<T extends MetOceanPointTimeSeriesVariable[]>(
+    async getPointTimeSeries<T extends MetOceanTimeSeriesVariable[]>(
         { points, time, times, variables }: MetOceanPointTimeSeriesArgs<T>,
         fetchOptions?: MetOceanFetchOptions): Promise<MetOceanPointTimeSeriesResponse<T>> {
 
@@ -288,10 +337,54 @@ export class MetOcean {
             message: resText
         });
 
-        /** @todo make this not any? */
+        /** @todo improve typing here? */
         const data = JSON.parse(resText) as any;
-        /**@todo check this first? */
+        //Map strings to date array
         data.dimensions.time.data = data.dimensions.time.data.map((dateString: string) => new Date(dateString));
-        return data as MetOceanPointTimeSeriesResponse<T>;
+        return data;
+    }
+
+    /**
+     * Retrieves time-series data from MetOcean Solutions' Route Time-Series Forecast API.
+     * @param param0 
+     * @param fetchOptions 
+     * @todo test that this works (w/ types too)
+     */
+    async getRouteTimeSeries<T extends MetOceanTimeSeriesVariable[]>(
+        { route, variables }: MetOceanRouteTimeSeriesArgs<T>,
+        fetchOptions?: MetOceanFetchOptions
+    ): Promise<MetOceanRouteTimeSeriesResponse<T>> {
+
+        if (this._options.validateArgs) {
+            MetOcean._THROW_IF_ROUTE_BAD({ route });
+            MetOcean._THROW_IF_VARIABLES_BAD({ variables });
+        }
+
+        //build request
+        const url = MetOcean._POINT_TIME_SERIES_BASE_URL;
+        const reqOptions: RequestInit = {
+            ...fetchOptions,
+            method: 'post',
+            headers: this._requestHeaders,
+            body: JSON.stringify({
+                route, variables
+            }),
+        };
+
+
+        //fetch
+        const res = await fetch(url, reqOptions);
+        const resText = await res.text();
+
+        //Throw request error on bad status code
+        if (res.status !== 200) throw new MetOceanRequestError({
+            httpStatusCode: res.status,
+            message: resText
+        });
+
+        /** @todo improve types */
+        const data = JSON.parse(resText) as any;
+        data.dimensions.timepoint.data = data.dimensions.timepoint.data.map((timepoint: { time: string; }) => ({ ...timepoint, time: new Date(timepoint.time) }))
+        return data;
     }
 }

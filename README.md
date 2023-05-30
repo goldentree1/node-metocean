@@ -2,19 +2,19 @@
 
 A wrapper for [MetOcean Solutions'](https://forecast-docs.metoceanapi.com/docs/#/getting-started) weather and marine APIs, featuring type-safety, error-handling and native JS Dates. Get an API key [here](https://console.metoceanapi.com/).
 
-<b>Warning: this package is still in development and there may be bugs or breaking changes before we reach v1.0.0. Currently only supports the Point Forecast Time-Series API.</b>
+<b>Warning: currently experimental.Currently only supports the Point Forecast Time-Series API.</b>
 
 <b>Disclaimer: this package is unofficial and its creator is not affiliated with
-[MetOcean Solutions'](https://www.metocean.co.nz/) in any way. </b>  
+[MetOcean Solutions'](https://www.metocean.co.nz/). </b>  
 
 ## Requirements
 - Node.js v18 or higher (or use a fetch polyfill)
 - ECMAScript 2015 or higher
-- Typescript v.4.5.0 or higher
+- Typescript v.4.5.0 or higher for type-safe features
 
 ## Installation
 ```bash
-$ npm install @goldentree1/metocean
+$ npm install metocean-api
 ```
 
 ## Basic Usage
@@ -22,8 +22,8 @@ $ npm install @goldentree1/metocean
 
 Create a new instance of MetOcean by passing in your API key. 
 ```ts
-import { MetOcean } from '@goldentree1/metocean';
-const m = new MetOcean({ apiKey: 'your-api-key' });
+import { MetOcean } from 'metocean-api';
+const m = new MetOcean({ apiKey: '<YOUR-API-KEY>' });
 ```
 Call a method on the instance to retrieve data from the API, with the added bonus of autocomplete in modern IDEs!
 
@@ -48,7 +48,7 @@ import {
   MetOceanError,
   MetOceanIllegalArgumentError,
   MetOceanRequestError
-} from 'goldentree1/metocean';
+} from 'metocean-api';
 
 const m = new MetOcean({ apiKey: 'your-api-key' });
 
