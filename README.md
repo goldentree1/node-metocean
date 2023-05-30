@@ -1,6 +1,6 @@
 # MetOcean API
 
-A wrapper for [MetOcean Solutions'](https://forecast-docs.metoceanapi.com/docs/#/getting-started) weather and marine APIs, featuring type-safety, error-handling and native JS Dates. Get an API key [here](https://console.metoceanapi.com/).
+A [typescript](https://www.npmjs.com/package/typescript) wrapper for [MetOcean Solutions'](https://forecast-docs.metoceanapi.com/docs/#/getting-started) weather and marine APIs, featuring type-safety, error-handling and native JS Dates. Get an API key [here](https://console.metoceanapi.com/).
 
 Currently supports time-series, point, and route endpoints.
 
@@ -10,9 +10,9 @@ Currently supports time-series, point, and route endpoints.
 [MetOcean Solutions'](https://www.metocean.co.nz/). </b>  
 
 ## Requirements
-- Node.js v18 or higher (or use a fetch polyfill)
-- ECMAScript 2015 or higher
-- Typescript v.4.5.0 or higher for type-safe features
+- Node.js v18 or higher (or works fine with a [fetch polyfill](https://www.npmjs.com/package/node-fetch) on v16)
+- ES6+
+- Typescript 4.5.0+
 
 ## Installation
 ```bash
@@ -57,33 +57,51 @@ const m = new MetOcean({ apiKey: 'your-api-key' });
 try {
     const data = await m.getPointTimeSeries({
         points: [{ lat: -37.82, lon: 174.89 }],
-        time: { from: new Date(), repeat: 10 },
+        time: { from: new Date(), repeat: 3 },
         variables: ['cloud.cover']
     });
-    //Print 'cloud.cover' if request/response successful.
-    console.log(data.variables['cloud.cover']?.data);
+
+    //Print 'cloud.cover' if request/response successful e.g:
+    //@example[0.56, 0.78]"
+    console.log(data.variables['wave.height']?.data); // [0.56, 0.59, 0.71]
 } catch (err) {
-    if(err instanceof MetOceanIllegalArgumentError){
-        //... handle a bad input here
+
+    if(err instanceof MetOceanUnauthorizedError){
+        //unauthorised: probably a bad api key (status 401)
     }
-    if(err instanceof MetOceanRequestError){
-        //... handle a bad http code here
+    
+    if(err instanceof MetOceanNotFoundError){
+        //not found error (status 404)
+    }
+
+    if(err instanceof MetOceanInputError){
+        //indicates incorrect user input (all other 4XX status codes)
+    }
+
+    if(err instanceof MetOceanServerError){
+        //server errors (all http status 5XX codes)
+    }
+
+    if(err instanceof MetOceanError){
+        //Any of the above MetOcean errors can also simply be idenrtified by their err.httpStatusCode.
         console.log(err.httpStatusCode);
+        //The error list provides helpful error messages from the api
+        console.log(err.errorList.toString());
+    }else{
+        //Not a MetOcean error - probably a networking error (4XX and 5XX)
     }
-    if(!(err instanceof MetOceanError)){
-        //... handle a networking error here
-    }
+
     console.error(err);
 }
 ```
 
-## To do
+## Contribution
+Contributions to this package are welcome. Please open an issue to discuss any changes, bugs or improvements you would like to make. Suggestions are welcome.
+
+### Current todo
  - add support for /variables endpoint.
  - add support for /models endpoint.
- - write tests
-
-## Contribution
-Contributions to this package are welcome. Please open an issue to discuss any changes, bugs or improvements you would like to make.
+ - write (better) tests
 
 ## License
 [MIT License](https://github.com/goldentree1/node-metocean/blob/main/LICENSE).
