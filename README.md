@@ -4,7 +4,7 @@ A wrapper for [MetOcean Solutions'](https://forecast-docs.metoceanapi.com/docs/#
 
 Currently supports time-series, point, and route endpoints.
 
-<b>Warning: currently experimental.</b>
+<b>Warning: currently experimental. May be breaking changes yet.</b>
 
 <b>Disclaimer: this package is unofficial and its creator is not affiliated with
 [MetOcean Solutions'](https://www.metocean.co.nz/). </b>  
