@@ -77,6 +77,11 @@ try {
 }
 ```
 
+## To do
+ - add support for /variables endpoint.
+ - add support for /models endpoint.
+ - write tests
+
 ## Contribution
 Contributions to this package are welcome. Please open an issue to discuss any changes, bugs or improvements you would like to make.
 
