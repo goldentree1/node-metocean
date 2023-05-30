@@ -304,11 +304,12 @@ export class MetOcean {
      * @throws {MetOceanRequestError} on invalid API requests (e.g., invalid api key)
      * @throws {Error} on fetch errors (e.g., no internet connect)
      * @example 
-     * const data = await new MetOcean({apiKey}).getPointTimeSeries({
+     * const timeSeriesData = await new MetOcean({apiKey}).getPointTimeSeries({
      *   points: [{lat: -37.82, lon: 174.89}],
      *   times: [new Date()],
      *   variables:['air.temperature.at-2m', 'cloud.cover']
-     * })
+     * });
+     * console.log(timeSeriesData);
      */
     async getPointTimeSeries<T extends MetOceanTimeSeriesVariable[]>(
         args: MetOceanPointTimeSeriesArgs<T>,
@@ -337,11 +338,12 @@ export class MetOcean {
      * @throws {MetOceanRequestError} on invalid API requests (e.g., invalid api key)
      * @throws {Error} on fetch errors (e.g., no internet connect)
      * @example 
-     * const data = await new MetOcean({apiKey}).getPointTimeSeries({
+     * const pointData = await new MetOcean({apiKey}).getPointTimeSeries({
      *   points: [{lat: -37.82, lon: 174.89}],
      *   times: [new Date()],
      *   variables:['air.temperature.at-2m', 'cloud.cover']
-     * })   
+     * });
+     * console.log(pointData);
     */
     async getPoint<T extends MetOceantNonTimeSeriesVariable[]>(
         args: MetOceanPointArgs<T>,
@@ -363,28 +365,19 @@ export class MetOcean {
      * @throws {MetOceanRequestError} on invalid API requests (e.g., invalid api key)
      * @throws {Error} on fetch errors (e.g., no internet connect)
      * @example 
-     * const mo = new MetOcean({ apiKey:'YOUR-API-KEY' })
-     * const res = await mo.getRouteTimeSeries({
+     * const mo = new MetOcean({ apiKey:'YOUR-API-KEY' });
+     * const routeTimeSeriesData = await mo.getRouteTimeSeries({
      *   route: [
-     *      {
-     *         lon: 186.77271306302663,
-     *         lat: -30.939924331023455,
-     *         time: new Date()  
+     *      { lon: 186.77271306302663, lat: -30.939924331023455, 
+     *        time: new Date() 
      *      },
-     *      {
-     *         lon: 181.8061859929176,
-     *         lat: -30.145127183376115,
-     *         time: new Date(Date.now() + 1000 * 60 * 60 * 3) 
-     *      },
-     *      {
-     *         lon: 177.63078712866664,
-     *         lat: -29.878755346037977,
-     *         time: new Date(Date.now() + 1000 * 60 * 60 * 6) 
+     *      { lon: 177.63078712866664, lat: -29.878755346037977, 
+     *        time: new Date(Date.now() + 1000 * 60 * 60 * 6) 
      *      }
      *   ],
      *   variables: ['wave.height']
-     * })
-     * console.log(res);
+     * });
+     * console.log(routeTimeSeriesData);
      */
     async getRouteTimeSeries<T extends MetOceanTimeSeriesVariable[]>(
         args: MetOceanRouteTimeSeriesArgs<T>,
@@ -409,29 +402,15 @@ export class MetOcean {
      * @throws {MetOceanIllegalArgumentError} on bad arguments (e.g., `variables` is empty)
      * @throws {MetOceanRequestError} on invalid API requests (e.g., invalid api key)
      * @throws {Error} on fetch errors (e.g., no internet connect)
-     * @example 
-     * const mo = new MetOcean({ apiKey:'YOUR-API-KEY' })
-     * const res = await mo.getRouteTimeSeries({
-     *   route: [
-     *      {
-     *         lon: 186.77271306302663,
-     *         lat: -30.939924331023455,
-     *         time: new Date()  
-     *      },
-     *      {
-     *         lon: 181.8061859929176,
-     *         lat: -30.145127183376115,
-     *         time: new Date(Date.now() + 1000 * 60 * 60 * 3) 
-     *      },
-     *      {
-     *         lon: 177.63078712866664,
-     *         lat: -29.878755346037977,
-     *         time: new Date(Date.now() + 1000 * 60 * 60 * 6) 
-     *      }
-     *   ],
-     *   variables: ['wave.height']
-     * })
-     * console.log(res);
+     * @example   
+     * const mo = new MetOcean({apiKey:'YOUR-API-KEY'})
+     * const routeSpeedData = await mo.getRouteSpeed({
+     *    start: new Date(),
+     *    points: [{ lat: 30, lon: 39 }, { lat: 31, lon: 38 }, { lat: 30, lon: 20 }],
+     *    speeds: [2, 3],
+     *    variables: ['air.temperature.at-2m']
+     * });
+     * console.log(routeSpeedData);
      */
     async getRouteSpeed<T extends MetOceanTimeSeriesVariable[]>(
         args: MetOceanRouteSpeedArgs<T>,
