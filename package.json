@@ -1,6 +1,6 @@
 {
   "name": "metocean-api",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Unofficial JS/TS wrapper for MetOcean Solutions' API, featuring type-safety and error-handling.",
   "author": "EB",
   "homepage": "https://github.com/goldentree101/node-metocean",
@@ -50,7 +50,6 @@
     "docs": "typedoc src --out docs",
     "clean": "rimraf ./build ./dist ./docs",
     "test:jest": "jest",
-
     "test": "tsx tests/integration.ts",
     "generate": "rimraf ./build ./dist ./docs && rollup -c && tsc -p ./tsconfig.json --outDir build --declaration true && api-extractor run && typedoc src --out docs"
   },
