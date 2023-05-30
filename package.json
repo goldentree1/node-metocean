@@ -1,12 +1,12 @@
 {
   "name": "metocean-api",
-  "version": "0.1.2",
+  "version": "0.1.0",
   "description": "Unofficial JS/TS wrapper for MetOcean Solutions' API, featuring type-safety and error-handling.",
   "author": "EB",
-  "homepage": "https://github.com/goldentree1/node-metocean",
+  "homepage": "https://github.com/goldentree101/node-metocean",
   "repository": {
     "type": "git",
-    "url": "https://github.com/goldentree1/node-metocean"
+    "url": "https://github.com/goldentree101/node-metocean"
   },
   "license": "MIT",
   "keywords": [
@@ -72,6 +72,6 @@
     "ts-node": "^10.4.0",
     "tslib": "^2.3.1",
     "typedoc": "^0.22.11",
-    "typescript": "^3.0.0"
+    "typescript": "^4.5.5"
   }
 }
