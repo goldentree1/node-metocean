@@ -9,7 +9,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
-    "target": "ES2018",
+    "target": "ES6",
   },
   "include": [
     "./src/**/*"
