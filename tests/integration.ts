@@ -6,6 +6,7 @@ globalThis.fetch = fetch as any;
 
 import { MetOcean, MetOceanUnauthorizedError } from './../src/index'
 
+/**Throw your api key in .env or here for integration tests. */
 const apiKey = process.env.METOCEAN_API_KEY;
 if (!apiKey) throw Error('API key is required to run integration tests. Please copy .env.example to `.env`, and put your MetOcean API key in there.')
 const mo = new MetOcean({ apiKey });
@@ -79,10 +80,14 @@ async function unauthorisedErrorThrows() {
 async function timeSeriesDataSuccessResponse() {
     const data = await mo.getPointTimeSeries({
         points: [{ lat: 30, lon: 40 }],
-        variables: ['air.humidity.at-2m'], time: {
-            from: new Date()
+        variables: ['air.humidity.at-2m'],
+        time: {
+            from: new Date(),
+            interval: 2,
+            to: new Date(Date.now() + 1000 * 60 * 60 * 6),
         }
     });
+    if(data.dimensions.time.data.length !== 4) throw Error('Time series data not correct length')
     return data;
 }
 async function pointDataSuccessResponse() {
