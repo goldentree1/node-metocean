@@ -317,6 +317,9 @@ export class MetOcean {
     ): Promise<MetOceanPointTimeSeriesResponse<T>> {
 
         const url = MetOcean.POINT_TIME_SERIES_BASE_URL;
+
+        //interval is num (e.g. 3), but should be string 3h
+        if(args.time?.interval) args.time.interval = (args.time.interval + 'h') as any;
         const res: any = await this._makeRequest(url, "post", args, fetchOptions);
 
         //convert strings to JS Dates
