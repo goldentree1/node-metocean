@@ -4,8 +4,6 @@ A [typescript](https://www.npmjs.com/package/typescript) wrapper for [MetOcean S
 
 Currently supports time-series, point, and route endpoints.
 
-<b>Warning: currently experimental. May be breaking changes yet.</b>
-
 <b>Disclaimer: this package is unofficial and its creator is not affiliated with
 [MetOcean Solutions'](https://www.metocean.co.nz/). </b>  
 
